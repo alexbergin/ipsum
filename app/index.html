@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ipsum.Tools</title>
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Abril+Fatface" type="text/css">
+		<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lato:100,300,400,900' type="text/css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Vollkorn" type="text/css">
+		<link rel="stylesheet" href="/styles/main.css" type="text/css" />
+		<script data-main="/scripts/main" src="/scripts/vendor/requirejs/require.js"></script>
+		<!--<script src="/scripts/main.js"></script>-->
+	</head>
+	<body>
+		<menu>
+			<section>
+				<h1>Ipsum</h1>
+				<p>A tool for quickly generating generic or customized <a href="http://en.wikipedia.org/wiki/Lorem_ipsum" target="_blank">lorem ipsum</a> for use in design and development. <a href="/">Reload the page</a> for fresh &amp; random ipsum.</p>
+			</section>
+			<section class="collapsable">
+				<summary>
+					<h2>Content</h2>
+				</summary>
+				<i>
+					<h3>Source</h3>
+					<p id="sourceDefault" class="button inactive">Default Ipsum</p><p id="sourceCustom" class="button inactive">Custom Text</p>
+					<textarea id="sourceTextarea"></textarea>
+					<h3>Length</h3>
+					<p id="lengthParagraphs" class="button inactive">Paragraphs</p><p id="lengthWords" class="button inactive">Words</p><p id="lengthLetters" class="button inactive">Letters</p>
+					<input id="lengthAmount" type="text" value="1"/>
+				</i>
+			</section>
+			<section class="collapsable">
+				<summary>
+					<h2>Settings</h2>
+				</summary>
+				<i>
+					<ol>
+						<li>
+							<p>Use a zero width space at the beginning of your ipsum to easily find and replace placeholder copy in your project?</p>
+							<p id="zeroYes" class="button inactive">Yes</p><p id="zeroNo" class="button inactive">No</p>
+						</li>
+						<li>
+							<p>How do you want to split up your source text?</p>
+							<p id="splitParagraphs" class="button inactive">Paragraphs</p><p id="splitSentences" class="button inactive">Sentences</p><p id="splitWords" class="button inactive">Words</p>
+						</li>
+						<li>
+							<p>Lines between paragraphs?</p>
+							<input id="lines" type="text" value="1" />
+						</li>
+					</ol>
+				</i>
+			</section>
+			<section>
+				<p class="small">Ipsum was created and is maintained by <a href="https://twitter.com/_AlexBergin" target="_blank">Alex Bergin</a>. Ads are awful and so they'll never be here, but I'll <a href="#" target="_blank">accept donations</a> to keep this site afloat.</p>
+			</section>
+		</menu>
+		<main>
+			<p></p>
+		</main>
+	</body>
+</html>

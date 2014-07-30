@@ -1,0 +1,199 @@
+menu
+	position: absolute
+	top: 0
+	left: 0
+	z-index: 2
+	background-color: $black
+	width: 400px
+	height: 100%
+	color: $white
+	overflow-x: hidden
+
+	section
+		background-color: $black
+		border-bottom: 1px solid tint( $black , 9% )
+		@extend .transition
+		@include transition-delay( 0.75s )
+
+		&:last-of-type
+			border-bottom: none
+
+		h1
+			@extend .logo
+
+		h2
+			@extend .menu-header
+
+		h3
+			@extend .menu-subhead
+
+		p
+			@extend .menu-copy
+
+			&.small
+				font-size: 11px
+				line-height: 20px
+				width: 75%
+				color: rgba( 252,253,255,0.2 )
+
+				a
+					border-bottom: 1px solid rgba( 252,253,255,0.2 )
+
+					&:hover
+						border-bottom-color: $red
+
+		label
+			@extend .menu-copy
+			font-weight: 400
+			font-size: 11px
+			line-height: 18px
+			letter-spacing: 3px
+			text-transform: uppercase
+			padding: 5px 20px 0px 20px
+
+		ol
+			&:first-child
+				li:first-child:before
+					display: none
+
+			&:last-child
+				li:last-child:after
+					display: none
+
+			li
+				&.inactive
+					opacity: 1
+
+					*
+						opacity: 0.333
+
+				&:before , &:after
+					content: ""
+					border-top: 1px dotted tint( $black , 9% )
+					display: block
+					position: relative
+					box-sizing: border-box
+					margin: 15px 20px
+
+				&:first-of-type
+					&:before
+						margin-top: 0
+
+				& + li
+					&:before
+						display: none
+
+		a
+			@extend .transition
+			padding-bottom: 3px
+			border-bottom: 2px solid rgba( 252,253,255,0.1 )
+			text-decoration: none
+			color: inherit
+
+			&:hover
+				color: $red
+				border-bottom-color: $red
+
+		.inactive
+			opacity: 0.333
+
+		
+		h1 , h2 , h3 , p
+			padding: 20px 35px 20px 20px
+
+			& + p , & + h2 , & + h3
+				padding-top: 0
+
+			&.button
+				@extend .transition
+				padding: 5px 10px
+				border: 1px solid $white
+				display: inline-block
+				margin: 10px 0 10px 20px
+				cursor: pointer
+				font-weight: 400
+				font-size: 11px
+				line-height: 18px
+				letter-spacing: 3px
+				text-transform: uppercase
+				outline: none
+
+		input[type="text"]
+			@extend .menu-copy
+			@extend .transition
+			color: inherit
+			background-color: transparent
+			border: 1px solid tint( $black , 9% )
+			box-sizing: border-box
+			display: block
+			width: 360px
+			margin: 5px 20px 20px 20px
+			padding: 10px
+
+			& + input
+				margin-top: -15px
+
+			&:focus
+				outline: none
+				background-color: tint( $black , 10% )
+
+		textarea
+			@extend .menu-copy
+			@extend .transition
+			color: inherit
+			border: none
+			margin: none
+			min-height: 150px
+			max-height: 800px
+			max-width: 360px
+			min-width: 360px
+			background-color: transparent
+			border: 1px solid tint( $black , 9% )
+			box-sizing: border-box
+			padding: 10px
+			margin: 20px
+
+			&:focus
+				outline: none
+				background-color: tint( $black , 10% )
+
+		summary , i
+			@include transition-delay( 0.75s )
+			@extend .transition
+
+		summary
+			border-bottom: 1px solid transparent
+			margin: 0 20px
+
+			h1 , h2 , h3 , p
+				padding-left: 0
+				padding-right: 0
+
+			h2
+				@include transition-delay( 0.75s )
+				@extend .transition
+				font-weight: 100
+
+		i
+			display: block
+			max-height: 0
+			overflow: hidden
+			opacity: 0
+
+		&.collapsable:hover , &.collapsable:focus
+			outline: none
+			@include transition-delay( 0s )
+			background-color: tint( $black , 3% )
+
+			summary
+				@include transition-delay( 0s )
+				border-bottom: 1px solid tint( $black , 7% )
+
+				h2
+					@include transition-delay( 0s )
+					font-weight: 900
+
+			i
+				@include transition-delay( 0s )
+				max-height: 1500px
+				opacity: 1
