@@ -126,7 +126,7 @@ define(function() {
           paragraphs: []
         }
       };
-      if (s.length > 6) {
+      if (s.length > 8) {
         cap = true;
         while (complete === false) {
           chosen = "";
@@ -186,6 +186,9 @@ define(function() {
       if (c.output.substring(c.output.length - 1) !== "!" && c.output.substring(c.output.length - 1) !== "." && c.output.substring(c.output.length - 1) !== "?" && c.output.substring(c.output.length - 1) !== "\n") {
         c.output = c.output.substring(0, c.output.length - 1);
         c.output += this.data.puncuationMarks[Math.floor(Math.random() * this.data.puncuationMarks.length)];
+      }
+      if (this.settings.useZeroSpace === true) {
+        c.output = "&nbsp;" + c.output;
       }
       return this.storage.string = c.output;
     };

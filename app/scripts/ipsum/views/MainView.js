@@ -26,6 +26,7 @@ define(function() {
 
     MainView.prototype.selectAll = function() {
       var range;
+      this.el.copy.innerText = this.el.copy.innerHTML;
       if (document.selection) {
         range = document.body.createTextRange();
         range.moveToElementText(this.el.copy);

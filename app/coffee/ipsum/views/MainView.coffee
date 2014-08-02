@@ -17,6 +17,7 @@ define ->
 				@.selectAll()
 
 		selectAll: ->
+			@.el.copy.innerText = @.el.copy.innerHTML
 			if document.selection
 				range = document.body.createTextRange()
 				range.moveToElementText( @.el.copy  )

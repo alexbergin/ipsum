@@ -34,16 +34,6 @@ define(function() {
     };
 
     SettingsView.prototype.addListeners = function() {
-      this.el.zeroYes.addEventListener("click", (function(_this) {
-        return function() {
-          return _this.setZero(_this.el.zeroYes);
-        };
-      })(this));
-      this.el.zeroNo.addEventListener("click", (function(_this) {
-        return function() {
-          return _this.setZero(_this.el.zeroNo);
-        };
-      })(this));
       return this.el.lines.addEventListener("keyup", (function(_this) {
         return function() {
           return _this.setSplitAmount(_this.el.lines);
@@ -52,11 +42,6 @@ define(function() {
     };
 
     SettingsView.prototype.setup = function() {
-      if (this.data.zeroWidthSpace === "true") {
-        this.setZero(this.el.zeroYes);
-      } else {
-        this.setZero(this.el.zeroNo);
-      }
       return this.el.lines.value = this.data.linesBetween;
     };
 

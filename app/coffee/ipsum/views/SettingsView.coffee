@@ -29,20 +29,20 @@ define ->
 				@.el[element] = document.getElementById element
 
 		addListeners: ->
-			@.el.zeroYes.addEventListener "click" , =>
-				@.setZero( @.el.zeroYes )
+			# @.el.zeroYes.addEventListener "click" , =>
+			# 	@.setZero( @.el.zeroYes )
 
-			@.el.zeroNo.addEventListener "click" , =>
-				@.setZero( @.el.zeroNo )
+			# @.el.zeroNo.addEventListener "click" , =>
+			# 	@.setZero( @.el.zeroNo )
 
 			@.el.lines.addEventListener "keyup" , =>
 				@.setSplitAmount( @.el.lines )
 
 		setup: ->
-			if @.data.zeroWidthSpace is "true"
-				@.setZero( @.el.zeroYes )
-			else
-				@.setZero( @.el.zeroNo )
+			# if @.data.zeroWidthSpace is "true"
+			# 	@.setZero( @.el.zeroYes )
+			# else
+			# 	@.setZero( @.el.zeroNo )
 
 			@.el.lines.value = @.data.linesBetween
 

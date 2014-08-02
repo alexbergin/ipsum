@@ -110,7 +110,7 @@ define ->
 					sentences: []
 					paragraphs: []
 
-			if s.length > 6
+			if s.length > 8
 				cap = true
 
 				while complete is false
@@ -163,6 +163,9 @@ define ->
 			if c.output.substring( c.output.length - 1 ) isnt "!" and c.output.substring( c.output.length - 1  ) isnt "." and c.output.substring( c.output.length - 1 ) isnt "?" and c.output.substring( c.output.length - 1 ) isnt "\n" 
 				c.output = c.output.substring( 0 , c.output.length - 1 )
 				c.output += @.data.puncuationMarks[ Math.floor( Math.random() * @.data.puncuationMarks.length )]
+
+			if @.settings.useZeroSpace is true then c.output = "&nbsp;" + c.output
+
 			@.storage.string = c.output
 
 		render: ->
