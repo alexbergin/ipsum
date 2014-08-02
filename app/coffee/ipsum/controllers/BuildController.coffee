@@ -4,7 +4,7 @@ define ->
 
 		data:
 			default: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.\nUt enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat"
-			puncuationMarks: ["!",".","?",";"]
+			puncuationMarks: ["!",".",".",".",".","?","?"]
 			custom: ""
 
 		settings:
@@ -75,6 +75,10 @@ define ->
 					temp = temp.replace( @.storage.muliline , "\n" )
 					@.storage.stringbank = temp.split( "\n" )
 
+		buildSentence: ->
+
+		buildParagraph: ->
+
 		compile: ->
 			complete = false
 			s = @.storage.stringbank
@@ -107,44 +111,44 @@ define ->
 					paragraphs: []
 
 			if s.length > 6
+				cap = true
+
 				while complete is false
-					switch @.settings.splitType
-						when "words"
-							chosen = ""
-							checks = c.past.words.length
-							while chosen is "" or c.past.words.indexOf( chosen ) isnt -1 or checks < 0
-								chosen = s[ Math.floor( Math.random() * s.length )].toLowerCase()
+					chosen = ""
+					checks = c.past.words.length
+					while chosen is "" or c.past.words.indexOf( chosen ) isnt -1 or checks < 0
+						chosen = s[ Math.floor( Math.random() * s.length )].toLowerCase()
 
-							if c.past.words.length > 6 then c.past.words.pop()
-							c.past.words.push( chosen )
-							c.output += "#{chosen}"
-							c.sentence.length++
-							c.letters.total += chosen.length
-							c.words.total++
+					if c.past.words.length > 6 then c.past.words.pop()
+					c.past.words.push( chosen )
 
-							if c.sentence.length >= c.sentence.goal
-								c.sentence.length = 0
-								c.paragraph.length++
-								c.sentence.goal = c.sentence.min + Math.floor( Math.random() * ( c.sentence.max - c.sentence.min ))
-								c.output += @.data.puncuationMarks[ Math.floor( Math.random() * @.data.puncuationMarks.length )]
-								
-							if c.paragraph.length >= c.paragraph.goal
-								c.paragraph.total++
-								c.paragraph.length = 0
-								c.paragraph.goal = c.paragraph.min + Math.floor( Math.random() * ( c.paragraph.max - c.paragraph.min ))
-								i = 0
-								while i < @.settings.lines
-									c.output += "\n"
-									i++
+					if cap is true
+						chosen = chosen.charAt(0).toUpperCase() + chosen.slice(1)
+						cap = false
 
-							else
-								c.output += " "
+					c.output += "#{chosen}"
+					c.sentence.length++
+					c.letters.total += chosen.length
+					c.words.total++
 
-						when "sentences"
-							complete = true
+					if c.sentence.length >= c.sentence.goal
+						c.sentence.length = 0
+						c.paragraph.length++
+						c.sentence.goal = c.sentence.min + Math.floor( Math.random() * ( c.sentence.max - c.sentence.min ))
+						c.output += @.data.puncuationMarks[ Math.floor( Math.random() * @.data.puncuationMarks.length )]
+						cap = true
+						
+					if c.paragraph.length >= c.paragraph.goal
+						c.paragraph.total++
+						c.paragraph.length = 0
+						c.paragraph.goal = c.paragraph.min + Math.floor( Math.random() * ( c.paragraph.max - c.paragraph.min ))
+						i = 0
+						while i < @.settings.lines
+							c.output += "\n"
+							i++
 
-						when "paragraphs"
-							complete = true
+					else
+						c.output += " "
 
 					switch @.settings.buildUnit
 						when "paragraphs"
@@ -156,6 +160,9 @@ define ->
 						when "letters"
 							if c.letters.total >= @.settings.buildLength then complete = true
 
+			if c.output.substring( c.output.length - 1 ) isnt "!" and c.output.substring( c.output.length - 1  ) isnt "." and c.output.substring( c.output.length - 1 ) isnt "?" and c.output.substring( c.output.length - 1 ) isnt "\n" 
+				c.output = c.output.substring( 0 , c.output.length - 1 )
+				c.output += @.data.puncuationMarks[ Math.floor( Math.random() * @.data.puncuationMarks.length )]
 			@.storage.string = c.output
 
 		render: ->

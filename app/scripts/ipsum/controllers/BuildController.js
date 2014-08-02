@@ -5,7 +5,7 @@ define(function() {
 
     BuildController.prototype.data = {
       "default": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.\nUt enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat",
-      puncuationMarks: ["!", ".", "?", ";"],
+      puncuationMarks: ["!", ".", ".", ".", ".", "?", "?"],
       custom: ""
     };
 
@@ -89,8 +89,12 @@ define(function() {
       }
     };
 
+    BuildController.prototype.buildSentence = function() {};
+
+    BuildController.prototype.buildParagraph = function() {};
+
     BuildController.prototype.compile = function() {
-      var c, checks, chosen, complete, i, s;
+      var c, cap, checks, chosen, complete, i, s;
       complete = false;
       s = this.storage.stringbank;
       c = {
@@ -123,46 +127,43 @@ define(function() {
         }
       };
       if (s.length > 6) {
+        cap = true;
         while (complete === false) {
-          switch (this.settings.splitType) {
-            case "words":
-              chosen = "";
-              checks = c.past.words.length;
-              while (chosen === "" || c.past.words.indexOf(chosen) !== -1 || checks < 0) {
-                chosen = s[Math.floor(Math.random() * s.length)].toLowerCase();
-              }
-              if (c.past.words.length > 6) {
-                c.past.words.pop();
-              }
-              c.past.words.push(chosen);
-              c.output += "" + chosen;
-              c.sentence.length++;
-              c.letters.total += chosen.length;
-              c.words.total++;
-              if (c.sentence.length >= c.sentence.goal) {
-                c.sentence.length = 0;
-                c.paragraph.length++;
-                c.sentence.goal = c.sentence.min + Math.floor(Math.random() * (c.sentence.max - c.sentence.min));
-                c.output += this.data.puncuationMarks[Math.floor(Math.random() * this.data.puncuationMarks.length)];
-              }
-              if (c.paragraph.length >= c.paragraph.goal) {
-                c.paragraph.total++;
-                c.paragraph.length = 0;
-                c.paragraph.goal = c.paragraph.min + Math.floor(Math.random() * (c.paragraph.max - c.paragraph.min));
-                i = 0;
-                while (i < this.settings.lines) {
-                  c.output += "\n";
-                  i++;
-                }
-              } else {
-                c.output += " ";
-              }
-              break;
-            case "sentences":
-              complete = true;
-              break;
-            case "paragraphs":
-              complete = true;
+          chosen = "";
+          checks = c.past.words.length;
+          while (chosen === "" || c.past.words.indexOf(chosen) !== -1 || checks < 0) {
+            chosen = s[Math.floor(Math.random() * s.length)].toLowerCase();
+          }
+          if (c.past.words.length > 6) {
+            c.past.words.pop();
+          }
+          c.past.words.push(chosen);
+          if (cap === true) {
+            chosen = chosen.charAt(0).toUpperCase() + chosen.slice(1);
+            cap = false;
+          }
+          c.output += "" + chosen;
+          c.sentence.length++;
+          c.letters.total += chosen.length;
+          c.words.total++;
+          if (c.sentence.length >= c.sentence.goal) {
+            c.sentence.length = 0;
+            c.paragraph.length++;
+            c.sentence.goal = c.sentence.min + Math.floor(Math.random() * (c.sentence.max - c.sentence.min));
+            c.output += this.data.puncuationMarks[Math.floor(Math.random() * this.data.puncuationMarks.length)];
+            cap = true;
+          }
+          if (c.paragraph.length >= c.paragraph.goal) {
+            c.paragraph.total++;
+            c.paragraph.length = 0;
+            c.paragraph.goal = c.paragraph.min + Math.floor(Math.random() * (c.paragraph.max - c.paragraph.min));
+            i = 0;
+            while (i < this.settings.lines) {
+              c.output += "\n";
+              i++;
+            }
+          } else {
+            c.output += " ";
           }
           switch (this.settings.buildUnit) {
             case "paragraphs":
@@ -181,6 +182,10 @@ define(function() {
               }
           }
         }
+      }
+      if (c.output.substring(c.output.length - 1) !== "!" && c.output.substring(c.output.length - 1) !== "." && c.output.substring(c.output.length - 1) !== "?" && c.output.substring(c.output.length - 1) !== "\n") {
+        c.output = c.output.substring(0, c.output.length - 1);
+        c.output += this.data.puncuationMarks[Math.floor(Math.random() * this.data.puncuationMarks.length)];
       }
       return this.storage.string = c.output;
     };
